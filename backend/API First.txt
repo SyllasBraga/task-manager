@@ -1,0 +1,202 @@
+Usuário:
+
+POST /task-manager/api/v1/user
+
+Request
+  {
+    name: "",
+    email: "",
+    password: ""
+  }
+
+Response
+201
+  {
+    "id": "",
+    "name": "",
+    "email": ""
+  }
+
+Autenticação:
+
+POST /task-manager/api/v1/o-auth
+
+Request
+ Header "Authorization: xxxx"
+
+Response
+  {
+    "accessToken": ""
+  }
+
+
+Listas de tarefa:
+
+POST /task-manager/api/v1/task/list
+ Header "Authorization: xxxx"
+
+Request
+  {
+    "description": "",
+    "status": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "subtasks": [
+	    {
+        "description": "",
+        "status": "",
+        "endDate": "",
+        "deadlineDate": "",
+        "priority": ""
+	    }
+    ]
+  }
+
+Response
+201
+  {
+    "id": "",
+    "description": "",
+    "status": "",
+    "createdDate": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "subtasks": [
+	    {
+        "id": "",
+        "description": "",
+        "status": "",
+        "createdDate": "",
+        "endDate": "",
+        "deadlineDate": "",
+        "priority": ""
+	    }
+    ]
+  }
+
+GET /task-manager/api/v1/task/list?status=""&createdDate=""&endDate=""&deadLineDate=""&priority=""
+ Header "Authorization: xxxx"
+
+Response
+200
+  {
+    "id": "",
+    "description": "",
+    "status": "",
+    "createdDate": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "subtasks": [
+	    {
+        "id": "",
+        "description": "",
+        "status": "",
+        "createdDate": "",
+        "endDate": "",
+        "deadlineDate": "",
+        "priority": ""
+	    }
+    ]
+  }
+
+PUT /task-manager/api/v1/task/list/:ListId
+ Header "Authorization: xxxx"
+
+Request
+  {
+    "description": "",
+    "status": "",
+    "endDate": "",
+    "deadlineDate": ""
+  }
+
+
+Subtarefas da Lista de tarefas
+
+POST /task-manager/api/v1/task/list/:ListId/subtask
+ Header "Authorization: xxxx"
+
+Request
+  {
+    "description": "",
+    "status": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "priority": ""
+  }
+
+Response
+201
+  {
+    "id": "",
+    "description": "",
+    "status": "",
+    "createdDate": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "priority": ""
+  }
+
+PUT /task-manager/api/v1/task/list/:ListId/subtask/:SubstaskId
+ Header "Authorization: xxxx"
+
+Request
+  {
+    "description": "",
+    "status": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "priority": ""
+  }
+
+Response
+200
+  {
+    "id": "",
+    "description": "",
+    "status": "",
+    "createdDate": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "priority": ""
+  }
+
+PUT /task-manager/api/v1/task/list/subtask/:SubstaskId/status
+ Header "Authorization: xxxx"
+
+Request
+  {
+    "priority": ""
+  }
+  
+Response
+200
+  {
+    "id": "",
+    "description": "",
+    "status": "",
+    "createdDate": "",
+    "endDate": "",
+    "deadlineDate": "",
+    "priority": ""
+  }
+
+DELETE /task-manager/api/v1/task/list/subtask/:SubstaskId
+ Header "Authorization: xxxx"
+
+Response
+200
+  {
+    "status": "ok"
+  }
+
+
+
+
+
+
+
+
+
+
+
