@@ -1,5 +1,7 @@
 package br.com.task_manager.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +16,8 @@ import br.com.task_manager.service.UserService;
 @Service
 public class UserServiceImpl implements UserService{
 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
@@ -24,14 +28,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserModel getUserByLogin(String login) {
-        return userRepository.findByEmail(login);
+        logger.info(":: UserServiceImpl.getUserByLogin() - Request: {}", login);
+        UserModel user = userRepository.findByEmail(login);
+        logger.info(":: UserServiceImpl.getUserByLogin() - Response: {}", user);
+        return user;
     }
 
     @Override
     public UserModel insertUser(UserModel userModel) {
+        logger.info(":: UserServiceImpl.insertUser() - Request: {}", userModel);
         userModel.setRole(Role.USER);
         userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
-        return userRepository.save(userModel);
+        userModel = userRepository.save(userModel);
+        logger.info(":: UserServiceImpl.insertUser() - Response: {}", userModel);
+        return userModel;
     }
 
     @Override

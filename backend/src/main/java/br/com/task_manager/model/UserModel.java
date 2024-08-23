@@ -11,12 +11,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "users",  uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserModel implements UserDetails{
     
     @Id
@@ -35,6 +37,6 @@ public class UserModel implements UserDetails{
 
     @Override
     public String getUsername() {
-        return getPassword();
+        return getEmail();
     }
 }
