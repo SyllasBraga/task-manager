@@ -1,0 +1,70 @@
+package br.com.task_manager.service.impl;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import br.com.task_manager.model.TaskModel;
+import br.com.task_manager.model.UserModel;
+import br.com.task_manager.repository.TaskRepository;
+import br.com.task_manager.service.TaskService;
+import jakarta.transaction.Transactional;
+
+@Service
+public class TaskServiceImpl implements TaskService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+
+    private final TaskRepository taskRepository;
+    private final UserServiceImpl userServiceImpl;
+
+    public TaskServiceImpl(TaskRepository taskRepository, UserServiceImpl userServiceImpl) {
+        this.taskRepository = taskRepository;
+        this.userServiceImpl = userServiceImpl;
+    }
+
+    @Override
+    @Transactional
+    public TaskModel insertTask(TaskModel taskModel) {
+        logger.info(":: TaskServiceImpl.insertTask() - Request {}", taskModel);
+        UserModel userModel = getUserByEmail();
+        taskModel.setUserModel(userModel);
+        taskModel.setCreatedDate(Timestamp.from(Instant.now()));
+        taskModel.getSubtasks().forEach(subtask -> {
+            subtask.setTask(taskModel);
+            subtask.setCreatedDate(Timestamp.from(Instant.now()));
+        });
+        TaskModel savedTaskModel = taskRepository.save(taskModel);
+        logger.info(":: TaskServiceImpl.insertTask() - Response UserId: {}", savedTaskModel.getId());
+        return savedTaskModel;
+    }
+
+    @Override
+    public List<TaskModel> getAll() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    }
+
+    @Override
+    public TaskModel updateTask(Long id, TaskModel taskModel) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateTask'");
+    }
+
+    private UserModel getUserByEmail(){
+        return userServiceImpl.getUserByLogin(getUserEmailFromToken());
+    }
+
+    private String getUserEmailFromToken(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        logger.info(":: TaskServiceImpl.getUserEmailFromToken() - Response {}", email);
+        return email;
+    }
+}
