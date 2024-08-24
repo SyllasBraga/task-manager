@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.task_manager.exception.TaskManagerBadRequestException;
 import br.com.task_manager.model.Role;
 import br.com.task_manager.model.UserModel;
 import br.com.task_manager.repository.UserRepository;
@@ -48,6 +49,15 @@ class UserServiceImplTest {
         assertNotNull(result);
         assertEquals(UserModel.class, result.getClass());
         assertEquals(USER_EMAIL, result.getEmail());
+    }
+
+    @Test
+    void whenInsertUserThrowsException() {
+        when(userRepository.save(userModel)).thenThrow(TaskManagerBadRequestException.class);
+
+        assertThrows(TaskManagerBadRequestException.class, () -> {
+            userService.insertUser(userModel);  
+        });
     }
 
     @Test

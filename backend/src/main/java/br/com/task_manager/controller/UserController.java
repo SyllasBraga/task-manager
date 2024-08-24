@@ -21,13 +21,7 @@ public class UserController implements UserApi{
 
     @Override
     public ResponseEntity<UserResponse> insertUser(UserRequest userRequest) {
-        System.out.println(userRequest.getName());
-        System.out.println(userRequest.getPassword());
-        System.out.println(userRequest.getEmail());
         UserModel user = UserMapper.INSTANCE.userRequestToUserModel(userRequest);
-        System.out.println(user.getName());
-        System.out.println(user.getPassword());
-        System.out.println(user.getEmail());
         user = userService.insertUser(user);
         return ResponseEntity.status(201).body(UserMapper.INSTANCE.userModelToUserResponse(user));
     }
