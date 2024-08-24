@@ -2,12 +2,15 @@ package br.com.task_manager.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.task_manager.exception.TaskManagerBadRequestException;
+import br.com.task_manager.exception.enums.ExceptionsEnum;
 import br.com.task_manager.model.Role;
 import br.com.task_manager.model.UserModel;
 import br.com.task_manager.repository.UserRepository;
@@ -36,12 +39,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserModel insertUser(UserModel userModel) {
-        logger.info(":: UserServiceImpl.insertUser() - Request: {}", userModel);
-        userModel.setRole(Role.USER);
-        userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
-        userModel = userRepository.save(userModel);
-        logger.info(":: UserServiceImpl.insertUser() - Response: {}", userModel);
-        return userModel;
+        try{
+            logger.info(":: UserServiceImpl.insertUser() - Request: {}", userModel);
+            userModel.setRole(Role.USER);
+            userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
+            userModel = userRepository.save(userModel);
+            logger.info(":: UserServiceImpl.insertUser() - Response: {}", userModel);
+            return userModel;
+        }catch(DataIntegrityViolationException ex){
+            logger.error(":: UserServiceImpl.insertUser() - Response: {}", ex.toString());
+            throw new TaskManagerBadRequestException(ExceptionsEnum.CONSTRAINT_VIOLATION.getMsg());
+        }
     }
 
     @Override
