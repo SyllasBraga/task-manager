@@ -3,7 +3,6 @@ package br.com.task_manager.api;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -48,10 +47,10 @@ public interface TaskApi{
             @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationError.class)) })
     })
     ResponseEntity<List<TaskResponse>> getAll(@RequestParam(value = "status") String status,
-            @RequestParam(value = "createdDate") String createdDate,
-            @RequestParam(value = "endDate") String endDate,
-            @RequestParam(value = "deadLineDate") String deadLineDate,
-            @RequestParam(value = "priority") String priority);
+            @RequestParam(value = "createdDate", required = false) String createdDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
+            @RequestParam(value = "deadLineDate", required = false) String deadLineDate,
+            @RequestParam(value = "priority", required = false) String priority);
     
     @PutMapping("/{taskId}")
     @Operation(summary = "Endpoint para atualizar uma tarefa", responses = {
@@ -63,5 +62,5 @@ public interface TaskApi{
             @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationError.class))})
     })
     ResponseEntity<TaskResponse> updateTask(@Valid @RequestBody TaskRequest taskRequest,
-            @PathVariable(value = "taskId") @NotBlank(message = "{taskId} não pode ser nulo") Long taskId);
+            @PathVariable(value = "taskId", required = true) @NotBlank(message = "{taskId} não pode ser nulo") Long taskId);
 }

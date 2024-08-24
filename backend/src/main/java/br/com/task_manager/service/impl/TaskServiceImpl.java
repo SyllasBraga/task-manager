@@ -6,10 +6,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import br.com.task_manager.exception.TaskManagerBadRequestException;
+import br.com.task_manager.exception.enums.ExceptionsEnum;
 import br.com.task_manager.model.TaskModel;
 import br.com.task_manager.model.UserModel;
 import br.com.task_manager.repository.TaskRepository;
@@ -46,9 +49,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskModel> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    public List<TaskModel> getAll(String status, String createdDate,String endDate,
+            String deadLineDate,
+            String priority) {
+        Timestamp createdDateFormatted = stringToTimestamp(createdDate);
+        Timestamp endDateFormatted = stringToTimestamp(endDate);
+        Timestamp deadLineDateFormatted = stringToTimestamp(deadLineDate);
+        String userEmail = getUserEmailFromToken();
+        Boolean formattedPriority = Boolean.valueOf(priority);
+        
+        return taskRepository.findTasksByFilters(status,
+        createdDateFormatted, endDateFormatted, 
+        deadLineDateFormatted, formattedPriority, userEmail);
     }
 
     @Override
@@ -66,5 +78,17 @@ public class TaskServiceImpl implements TaskService {
         String email = authentication.getName();
         logger.info(":: TaskServiceImpl.getUserEmailFromToken() - Response {}", email);
         return email;
+    }
+
+    private Timestamp stringToTimestamp(String dateToFormat){
+        Timestamp dateFormatted = new Timestamp(0);
+        try{
+            if(dateToFormat != null){
+                dateFormatted = Timestamp.valueOf(dateToFormat);
+            }
+        }catch(IllegalArgumentException ex){
+            throw new TaskManagerBadRequestException(ExceptionsEnum.INVALID_DATE.getMsg());
+        }
+        return dateFormatted;
     }
 }

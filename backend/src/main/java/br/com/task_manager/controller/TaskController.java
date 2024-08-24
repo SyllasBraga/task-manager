@@ -1,8 +1,10 @@
 package br.com.task_manager.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.task_manager.api.TaskApi;
@@ -31,10 +33,17 @@ public class TaskController implements TaskApi{
     }
 
     @Override
-    public ResponseEntity<List<TaskResponse>> getAll(String status, String createdDate, String endDate,
-            String deadLineDate, String priority) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    public ResponseEntity<List<TaskResponse>> getAll(@RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "createdDate", required = false) String createdDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
+            @RequestParam(value = "deadLineDate", required = false) String deadLineDate,
+            @RequestParam(value = "priority", required = false) String priority) {
+
+        List<TaskModel> tasksList = taskServiceImpl.getAll(status, createdDate, endDate, deadLineDate, priority);
+        List<TaskResponse> taskResponse = new ArrayList<>();
+        tasksList.forEach(task -> taskResponse.add(TaskMapper.INSTANCE.taskModelToTaskResponse(task)));
+        
+        return ResponseEntity.ok(taskResponse); 
     }
 
     @Override
@@ -43,5 +52,4 @@ public class TaskController implements TaskApi{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateTask'");
     }
-    
 }
