@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.task_manager.exception.TaskManagerBadRequestException;
+import br.com.task_manager.exception.TaskManagerNotFoundException;
 import br.com.task_manager.exception.enums.ExceptionsEnum;
 import br.com.task_manager.model.Role;
 import br.com.task_manager.model.UserModel;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserModel getUserByLogin(String login) {
+    public UserModel getUserByLogin(String login) throws TaskManagerNotFoundException{
         logger.info(":: UserServiceImpl.getUserByLogin() - Request: {}", login);
         UserModel user = userRepository.findByEmail(login);
         logger.info(":: UserServiceImpl.getUserByLogin() - Response: {}", user);

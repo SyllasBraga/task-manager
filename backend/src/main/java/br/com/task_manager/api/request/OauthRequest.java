@@ -15,9 +15,9 @@ import lombok.ToString;
 @ToString
 public class OauthRequest {
     
-    @Email
-    @NotBlank
+    @Email(message = "Deve ser válido")
+    @NotBlank(message = "Não pode ser nulo")
     private String email;
-    @NotBlank
+    @NotBlank(message = "Não pode ser nulo")
     private String password;
 }
