@@ -13,7 +13,16 @@ public interface TaskMapper {
     
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
 
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "endDate", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "userModel", ignore = true)
+    @Mapping(source = "subtasks", target = "subtasks")
     TaskModel taskRequestToTaskModel(TaskRequest taskRequest);
 
+    @Mapping(source = "createdDate", target = "createdDate")
+    @Mapping(source = "deadLineDate", target = "deadlineDate")
+    @Mapping(source = "endDate", target = "endDate")
+    @Mapping(source = "subtasks", target = "subtasks")
     TaskResponse taskModelToTaskResponse(TaskModel taskModel);
 }
