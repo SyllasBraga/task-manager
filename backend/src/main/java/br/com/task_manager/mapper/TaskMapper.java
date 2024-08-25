@@ -1,6 +1,7 @@
 package br.com.task_manager.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import br.com.task_manager.api.request.TaskRequest;
