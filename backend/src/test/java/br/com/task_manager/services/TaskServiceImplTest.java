@@ -100,7 +100,7 @@ class TaskServiceImplTest {
         when(taskRepository.findTasksByFilters(any(), eq(createdDateFormatted), eq(endDateFormatted), eq(deadLineDateFormatted), eq(formattedPriority), eq(USER_EMAIL)))
                 .thenReturn(Arrays.asList(taskModel));
 
-        List<TaskModel> result = taskService.getAll(null, null, null, null, Boolean.toString(formattedPriority));
+        List<TaskModel> result = taskService.getAll(null, createdDateFormatted.toString(), endDateFormatted.toString(), deadLineDateFormatted.toString(), Boolean.toString(formattedPriority));
 
         assertNotNull(result);
         assertFalse(result.isEmpty());

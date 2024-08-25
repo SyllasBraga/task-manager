@@ -55,8 +55,12 @@ public class TaskServiceImpl implements TaskService {
         Timestamp endDateFormatted = stringToTimestamp(endDate);
         Timestamp deadLineDateFormatted = stringToTimestamp(deadLineDate);
         String userEmail = getUserEmailFromToken();
-        Boolean formattedPriority = Boolean.valueOf(priority);
-        
+
+        Boolean formattedPriority = priority != null ? Boolean.valueOf(priority) : null;
+        logger.info("{}, {}, {}, {}, {}, {}", status,
+        createdDateFormatted, endDateFormatted, 
+        deadLineDateFormatted, formattedPriority, userEmail);
+
         return taskRepository.findTasksByFilters(status,
         createdDateFormatted, endDateFormatted, 
         deadLineDateFormatted, formattedPriority, userEmail);
@@ -88,7 +92,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Timestamp stringToTimestamp(String dateToFormat){
-        Timestamp dateFormatted = new Timestamp(0);
+        Timestamp dateFormatted = null;
         try{
             if(dateToFormat != null){
                 dateFormatted = Timestamp.valueOf(dateToFormat);

@@ -14,7 +14,7 @@ public interface TaskRepository extends JpaRepository<TaskModel, Long> {
     @Query(value = "SELECT * FROM TASKS T INNER JOIN USERS U ON U.id = T.id WHERE U.email = :email", nativeQuery = true)
     List<TaskModel> findByUserEmail(String email);
 
-    @Query(value = "SELECT t.* " +
+    @Query(value = "SELECT DISTINCT t.* " +
             "FROM tasks t " +
             "LEFT JOIN subtasks st ON t.id = st.task_id " +
             "WHERE t.user_id = (SELECT id FROM users WHERE email = :userEmail) " +

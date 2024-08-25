@@ -191,14 +191,3 @@ Subtarefas da Lista de tarefas
           {
             "status": "ok"
           }
-
-
-
-
-
-
-
-
-
-
-
