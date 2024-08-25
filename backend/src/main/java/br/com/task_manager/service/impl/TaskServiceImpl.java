@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -65,8 +64,16 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskModel updateTask(Long id, TaskModel taskModel) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateTask'");
+        logger.info(" :: TaskServiceImpl.updateTask() - Request: {}", taskModel);
+        TaskModel taskToUpdate = taskRepository.findById(id).get();
+        taskToUpdate.setTitle(taskModel.getTitle());
+        taskToUpdate.setDescription(taskModel.getDescription());
+        taskToUpdate.setStatus(taskModel.getStatus());
+        taskToUpdate.setEndDate(taskModel.getEndDate());
+        taskToUpdate.setDeadLineDate(taskModel.getDeadLineDate());
+        TaskModel taskUpdated = taskRepository.save(taskToUpdate);
+        logger.info(" :: TaskServiceImpl.updateTask() - Response: {}", taskUpdated);
+        return taskToUpdate;
     }
 
     private UserModel getUserByEmail(){

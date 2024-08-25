@@ -17,11 +17,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 @RestController
-public class TaskController implements TaskApi{
+public class TaskController implements TaskApi {
 
     private final TaskServiceImpl taskServiceImpl;
 
-    public TaskController(TaskServiceImpl taskServiceImpl){
+    public TaskController(TaskServiceImpl taskServiceImpl) {
         this.taskServiceImpl = taskServiceImpl;
     }
 
@@ -42,14 +42,16 @@ public class TaskController implements TaskApi{
         List<TaskModel> tasksList = taskServiceImpl.getAll(status, createdDate, endDate, deadLineDate, priority);
         List<TaskResponse> taskResponse = new ArrayList<>();
         tasksList.forEach(task -> taskResponse.add(TaskMapper.INSTANCE.taskModelToTaskResponse(task)));
-        
-        return ResponseEntity.ok(taskResponse); 
+
+        return ResponseEntity.ok(taskResponse);
     }
 
     @Override
     public ResponseEntity<TaskResponse> updateTask(@Valid TaskRequest taskRequest,
-            @NotBlank(message = "{taskId} não pode ser nulo") Long taskId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateTask'");
+            @NotBlank(message = "{taskId} não pode ser nulo") String taskId) {
+
+        TaskModel taskModel = TaskMapper.INSTANCE.taskRequestToTaskModel(taskRequest);
+        taskModel = taskServiceImpl.updateTask(Long.valueOf(taskId), taskModel);
+        return ResponseEntity.status(200).body(TaskMapper.INSTANCE.taskModelToTaskResponse(taskModel));
     }
 }

@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
-@RequestMapping("/task-manager/api/list")
+@RequestMapping("/task-manager/api/v1/list")
 public interface TaskApi{
 
     @PostMapping
@@ -62,5 +62,5 @@ public interface TaskApi{
             @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationError.class))})
     })
     ResponseEntity<TaskResponse> updateTask(@Valid @RequestBody TaskRequest taskRequest,
-            @PathVariable(value = "taskId", required = true) @NotBlank(message = "{taskId} não pode ser nulo") Long taskId);
+            @PathVariable(value = "taskId", required = true) @NotBlank(message = "{taskId} não pode ser nulo") String taskId);
 }

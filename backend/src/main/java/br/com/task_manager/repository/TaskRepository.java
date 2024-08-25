@@ -32,4 +32,5 @@ public interface TaskRepository extends JpaRepository<TaskModel, Long> {
             @Param("deadLineDate") Timestamp deadLineDate,
             @Param("priority") Boolean priority,
             @Param("userEmail") String userEmail);
+    
 }

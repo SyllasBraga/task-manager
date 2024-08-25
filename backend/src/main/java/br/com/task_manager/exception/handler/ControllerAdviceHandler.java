@@ -2,6 +2,8 @@ package br.com.task_manager.exception.handler;
 
 import java.time.Instant;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -31,6 +33,14 @@ public class ControllerAdviceHandler {
     @ExceptionHandler(TaskManagerNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<StandardError> notFoundException(TaskManagerNotFoundException e, HttpServletRequest http) {
+        StandardError error = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(),
+                e.getMessage(), http.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<StandardError> noSuchElementExceptionnotFoundException(NoSuchElementException e, HttpServletRequest http) {
         StandardError error = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(),
                 e.getMessage(), http.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);

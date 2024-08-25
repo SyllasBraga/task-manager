@@ -44,7 +44,7 @@ public class TaskModel {
     @JsonIgnore
     private List<SubtaskModel> subtasks;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", nullable = false)
     private UserModel userModel;
 }

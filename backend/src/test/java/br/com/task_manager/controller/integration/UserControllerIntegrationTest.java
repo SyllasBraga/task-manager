@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(Lifecycle.PER_CLASS)
 class UserControllerIntegrationTest {
 
     @Autowired
@@ -29,8 +32,9 @@ class UserControllerIntegrationTest {
     @Test
     void shouldInsertUserAndReturnCreated() throws Exception {
         UserRequest userRequest = new UserRequest();
+        String email = Math.random()+"testuser@example.com";
         userRequest.setName("Test User");
-        userRequest.setEmail("testuser@example.com");
+        userRequest.setEmail(email);
         userRequest.setPassword("password123");
 
         mockMvc.perform(MockMvcRequestBuilders.post(insertUserUri)
@@ -38,6 +42,6 @@ class UserControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(userRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.email").value("testuser@example.com"));
+                .andExpect(jsonPath("$.email").value(email));
     }
 }

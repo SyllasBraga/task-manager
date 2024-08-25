@@ -105,6 +105,7 @@ Listas de tarefa:
 
         Request
           {
+            "title": "",
             "description": "",
             "status": "",
             "endDate": "",
