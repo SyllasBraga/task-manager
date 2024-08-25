@@ -139,7 +139,7 @@ Subtarefas da Lista de tarefas
             "priority": ""
           }
 
-    PUT /task-manager/api/v1/task/list/:ListId/subtask/:SubstaskId
+    PUT /task-manager/api/v1/task/list/subtask/:SubstaskId
         Header "Authorization: xxxx"
 
         Request
@@ -151,26 +151,6 @@ Subtarefas da Lista de tarefas
             "priority": ""
           }
 
-        Response
-        200
-          {
-            "id": "",
-            "description": "",
-            "status": "",
-            "createdDate": "",
-            "endDate": "",
-            "deadlineDate": "",
-            "priority": ""
-          }
-
-    PUT /task-manager/api/v1/task/list/subtask/:SubstaskId/status
-        Header "Authorization: xxxx"
-
-        Request
-          {
-            "priority": ""
-          }
-          
         Response
         200
           {
@@ -187,7 +167,4 @@ Subtarefas da Lista de tarefas
         Header "Authorization: xxxx"
 
         Response
-        200
-          {
-            "status": "ok"
-          }
+        204

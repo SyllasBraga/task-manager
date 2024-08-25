@@ -26,6 +26,5 @@ public class SubtaskRequest {
     private String description;
     private StatusEnum status;
     private Timestamp deadlineDate;
-    @NotBlank(message = "Não pode estar em branco")
     private Boolean priority;
 }

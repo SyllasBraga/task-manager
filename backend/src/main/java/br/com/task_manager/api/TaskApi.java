@@ -28,7 +28,7 @@ public interface TaskApi{
 
     @PostMapping
     @Operation(summary = "Endpoint para inserir uma nova tarefa", responses = {
-        @ApiResponse(responseCode = "200", description = "OK", content = {
+        @ApiResponse(responseCode = "201", description = "OK", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = TaskResponse.class)) }),
         @ApiResponse(responseCode = "404", description = "NOT FOUND", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = TaskManagerNotFoundException.class)) }),

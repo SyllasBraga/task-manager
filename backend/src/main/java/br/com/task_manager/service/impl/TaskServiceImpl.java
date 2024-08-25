@@ -3,6 +3,7 @@ package br.com.task_manager.service.impl;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import br.com.task_manager.exception.TaskManagerBadRequestException;
+import br.com.task_manager.exception.TaskManagerNotFoundException;
 import br.com.task_manager.exception.enums.ExceptionsEnum;
 import br.com.task_manager.model.TaskModel;
 import br.com.task_manager.model.UserModel;
@@ -34,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public TaskModel insertTask(TaskModel taskModel) {
-        logger.info(":: TaskServiceImpl.insertTask() - Request {}", taskModel);
+        logger.info(":: TaskServiceImpl.insertTask() - Request {}", taskModel.getId());
         UserModel userModel = getUserByEmail();
         taskModel.setUserModel(userModel);
         taskModel.setCreatedDate(Timestamp.from(Instant.now()));
@@ -57,9 +59,10 @@ public class TaskServiceImpl implements TaskService {
         String userEmail = getUserEmailFromToken();
 
         Boolean formattedPriority = priority != null ? Boolean.valueOf(priority) : null;
-        logger.info("{}, {}, {}, {}, {}, {}", status,
-        createdDateFormatted, endDateFormatted, 
-        deadLineDateFormatted, formattedPriority, userEmail);
+
+        logger.info(":: TaskServiceImpl.getAll() - Request: {}, {}, {}, {}, {}, {}",
+            status, createdDateFormatted, endDateFormatted, 
+            deadLineDateFormatted, formattedPriority, userEmail);
 
         return taskRepository.findTasksByFilters(status,
         createdDateFormatted, endDateFormatted, 
@@ -69,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskModel updateTask(Long id, TaskModel taskModel) {
         logger.info(" :: TaskServiceImpl.updateTask() - Request: {}", taskModel);
-        TaskModel taskToUpdate = taskRepository.findById(id).get();
+        TaskModel taskToUpdate =  getById(id);
         taskToUpdate.setTitle(taskModel.getTitle());
         taskToUpdate.setDescription(taskModel.getDescription());
         taskToUpdate.setStatus(taskModel.getStatus());
@@ -102,4 +105,13 @@ public class TaskServiceImpl implements TaskService {
         }
         return dateFormatted;
     }
+
+    public TaskModel getById(Long id){
+        Optional<TaskModel> taskModel = taskRepository.findById(id);
+        if (!taskModel.isPresent()) {
+            throw new TaskManagerNotFoundException(ExceptionsEnum.NOT_FOUND.getMsg());
+        }
+        logger.info(":: TaskServiceImpl.getById() - SELECT RESULT: {}", taskModel.get().getId());
+        return taskModel.get();
+    }   
 }

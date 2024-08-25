@@ -36,7 +36,7 @@ public class SubtaskModel {
     private StatusEnum status;
     private Timestamp createdDate;
     private Timestamp endDate;
-    private Timestamp deadLineDate;
+    private Timestamp deadlineDate;
     private Boolean priority;
 
     @ManyToOne
