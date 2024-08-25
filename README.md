@@ -58,6 +58,16 @@ Com a aplicação rodando, em seu navegador, navegue até a seguinte URL:
 ```
 http://localhost:8080/task-manager/swagger-ui/index.html#/
 ```
+### A autenticação da API
+Antes de se autenticar, é necessário cadastrar um usuário, na controller "user-controller",  
+na requisição "/task-manager/api/v1/user" insira um novo usuário.  
+Observe que é necessário um e-mail em formato válido e uma senha de no mínimo 8 dígitos.  
+
+
+Na controller "authentication-controller", na requisição "/task-manager/api/v1/o-auth",   
+insira as credenciais utilizadas na criação.  
+Copie o access token retornado e, na parte superior da página, cole-o no campo "Authorize".  
+Os demais endpoints precisam exigem a autenticação.
 ### A base de dados
 Os comandos DDL são gerados automaticamente pelo programa ao ser iniciando.  
 A aplicação também possui um arquivo script de SQL para o preenchimento da base  
