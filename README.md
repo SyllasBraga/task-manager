@@ -12,7 +12,22 @@ Esse repositório armazena uma API Rest que possui as seguintes funcionalidades:
 - Criar um usuário;
 - Gerar um [JSON Web Token](https://www.alura.com.br/artigos/o-que-e-json-web-tokens?srsltid=AfmBOor7Yqh6ftlYmZ8NboAhH2ono0Oo751NkyueWHXBlX-CmThMpzmx) para a autenticação nos demais endpoints;
 - Gerenciar tarefas: listar todas por filtros, inserir e atualizar;
-- Gerenciar Subtarefas: inserir, atualizar e deletar.
+- Gerenciar Subtarefas: inserir, atualizar e deletar.  
+
+O projeto projeto foi desenvolvido seguindo a metologia de [API First](https://swagger.io/resources/articles/adopting-an-api-first-approach/). Arquivo com os [rascunhos](https://github.com/SyllasBraga/task-manager/blob/main/backend/API%20First.txt)
+
+### Tecnologias
+- Java 17;
+- Maven;
+- Docker;
+- MySQL;
+- Spring Boot;
+- Spring Security;
+- Spring Data;
+- JUnit 5;
+- Mockito;
+- Lombok;
+- MapStruct.
 
 ### Requisitos
 São requisitos para rodar esta aplicação:
