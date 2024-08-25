@@ -43,6 +43,10 @@ Com a aplicação rodando, em seu navegador, navegue até a seguinte URL:
 ```
 http://localhost:8080/task-manager/swagger-ui/index.html#/
 ```
+### A base de dados
+Os comandos DDL são gerados automaticamente pelo programa ao ser iniciando.  
+A aplicação também possui um arquivo script de SQL para o preenchimento da base  
+com dados iniciais. Disponível em "\src\main\resources\data.sql".
 ### Testes unitários e de integração
 As funcionalidades tiveram testes unitários e de integração escritos.  
 Estão disponíveis na pasta "\src\test\java\br\com\task_manager".  
