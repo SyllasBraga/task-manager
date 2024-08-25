@@ -34,6 +34,9 @@ public class UserServiceImpl implements UserService{
     public UserModel getUserByLogin(String login) throws TaskManagerNotFoundException{
         logger.info(":: UserServiceImpl.getUserByLogin() - Request: {}", login);
         UserModel user = userRepository.findByEmail(login);
+        if(user == null){
+            throw new TaskManagerNotFoundException(ExceptionsEnum.NOT_FOUND.getMsg());
+        }
         logger.info(":: UserServiceImpl.getUserByLogin() - Response: {}", user);
         return user;
     }
